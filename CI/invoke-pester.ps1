@@ -1,0 +1,1 @@
+Invoke-Pester -Path $PSScriptRoot\..\UnitTests\*.Tests.ps1 -OutputFile $PSScriptRoot\..\UnitTests\TestResults.xml -OutputFormat NUnitXml -PassThru
