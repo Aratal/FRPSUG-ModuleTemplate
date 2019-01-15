@@ -85,12 +85,19 @@
     
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Creating UnitTests folder</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\UnitTests' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' />
-    <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Deploying UnitTests files</message>
-    <templateFile source='UnitTests\*.ps1' destination='${PLASTER_PARAM_ModuleName}\UnitTests\' condition='$PLASTER_PARAM_UnitTests -eq "Yes"'/>
+    <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying UnitTests files</message>
+    <templateFile source='UnitTests\*.Tests.ps1' destination='${PLASTER_PARAM_ModuleName}\UnitTests\' condition='$PLASTER_PARAM_UnitTests -eq "Yes"'/>
 
     <message condition='$PLASTER_PARAM_License -in @("MIT","Apache")'>`r`n-> Creating Licence file</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Licenses' condition='$PLASTER_PARAM_License -in @("MIT","Apache")' />
     <file source='Licenses\MIT.md' destination='${PLASTER_PARAM_ModuleName}\Licenses\MIT.md' condition='$PLASTER_PARAM_License -eq "MIT"' />
     <file source='Licenses\Apache.md' destination='${PLASTER_PARAM_ModuleName}\Licenses\Apache.md' condition='$PLASTER_PARAM_License -eq "Apache"' />
+  
+    <message condition='$PLASTER_PARAM_Deploy -eq "Yes"'>`r`n-> Creating Deploy folder</message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Deploy' condition='$PLASTER_PARAM_Deploy -eq "Yes"' />
+    <message condition='$PLASTER_PARAM_Deploy -eq "Yes"'>`r`n-> Copying Deploy files</message>
+    <templateFile source='Deploy\template.PSDeploy.ps1' destination='${PLASTER_PARAM_ModuleName}\Deploy\${PLASTER_PARAM_ModuleName}.PSDeploy.ps1' condition='$PLASTER_PARAM_Deploy -eq "Yes"'/>
+
+  
   </content>
 </plasterManifest>
