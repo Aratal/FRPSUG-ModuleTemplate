@@ -76,6 +76,9 @@
     <message>____________________________________</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}' />
 
+    <message>`r`n-> Creating module manifest</message>
+    <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_AuthorName' companyName='${PLASTER_PARAM_AuthorName}' description='$PLASTER_PARAM_ModuleDescription' encoding='UTF8-NoBOM'/>
+
     <message>`r`n-> Creating your source code folders </message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
@@ -87,6 +90,11 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}\UnitTests' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' />
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying UnitTests files</message>
     <templateFile source='UnitTests\*.Tests.ps1' destination='${PLASTER_PARAM_ModuleName}\UnitTests\' condition='$PLASTER_PARAM_UnitTests -eq "Yes"'/>
+
+    <message condition='$PLASTER_PARAM_Build -eq "Yes"'>`r`n-> Creating Build folder</message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Build' condition='$PLASTER_PARAM_Build -eq "Yes"' />
+    <message condition='$PLASTER_PARAM_Build -eq "Yes"'>`r`n-> Copying build files</message>
+    <templateFile source='Build\*.ps1' destination='${PLASTER_PARAM_ModuleName}\Build\' condition='$PLASTER_PARAM_Build -eq "Yes"'/>
 
     <message condition='$PLASTER_PARAM_License -in @("MIT","Apache")'>`r`n-> Creating Licence file</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Licenses' condition='$PLASTER_PARAM_License -in @("MIT","Apache")' />
