@@ -76,9 +76,13 @@
 
     <message>`r`n-> Creating your source code folders </message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
     
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Creating UnitTests folder</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\UnitTests' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' />
@@ -113,7 +117,7 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}\CI' condition='$PLASTER_PARAM_CI -eq "Yes"' />
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying Continous Integration files</message>
     <templateFile source='CI\*.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\' condition='$PLASTER_PARAM_CI -eq "Yes"'/>
-    <file source='.\appveyor.yml' destination='${PLASTER_PARAM_ModuleName}\' condition='$PLASTER_PARAM_CI -eq "Yes"' />
+    <file source='appveyor.yml' destination='${PLASTER_PARAM_ModuleName}\appveyor.yml' condition='$PLASTER_PARAM_CI -eq "Yes"' />
 
     <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='3.4.0' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
     <requireModule name='psake' condition='$PLASTER_PARAM_Build -eq "Yes"' message='Without psake, you will not be able to run the provided build script to build and/or publish your module.'/>
