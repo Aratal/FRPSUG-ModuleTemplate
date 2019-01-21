@@ -19,7 +19,7 @@ write-verbose "invoking pester"
 #$TestFiles = (Get-ChildItem -Path .\ -Recurse  | ?{$_.name.EndsWith(".ps1") -and $_.name -notmatch ".tests." -and $_.name -notmatch "build" -and $_.name -notmatch "Example"}).Fullname
 
 
-$res = Invoke-Pester -Path "$($env:APPVEYOR_BUILD_FOLDER)/UnitTests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru #-CodeCoverage $TestFiles
+$res = Invoke-Pester -Path "$($env:APPVEYOR_BUILD_FOLDER)\UnitTests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru #-CodeCoverage $TestFiles
 
 #Uploading Testresults to Appveyor
 (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path ./TestsResults.xml))
@@ -31,7 +31,7 @@ if ($res.FailedCount -gt 0 -or $res.PassedCount -eq 0) {
 
 
     
-if ($res.FailedCount -eq 0 -and $res.successcount -ne 0) {
+<# if ($res.FailedCount -eq 0 -and $res.successcount -ne 0) {
     If ($env:APPVEYOR_REPO_BRANCH -eq "master") {
         Write-host "[$($env:APPVEYOR_REPO_BRANCH)] All tested Passed, and on Branch 'master'"
         $OfficialModulePath = $env:PSModulePath.SPlit(";")[0]
@@ -83,5 +83,5 @@ if ($res.FailedCount -eq 0 -and $res.successcount -ne 0) {
 }
 else {
     Write-host "[$($env:APPVEYOR_REPO_BRANCH)][$($ModuleName)] Failed tests: $($res.failedcount) - Successfull tests: $($res.successcount)" -ForegroundColor Red
-}
+} #>
 Write-Host "[TEST][END]" -ForegroundColor RED -BackgroundColor White

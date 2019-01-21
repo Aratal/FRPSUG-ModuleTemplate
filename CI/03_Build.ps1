@@ -1,4 +1,6 @@
 $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
+$Author = "<%= $PLASTER_PARAM_AuthorName %>"           
+$Manifest = ($ModuleName + ".psd1")   
 
 Write-Host "[BUILD][START] Launching Build Process : $($ModuleName)" -ForegroundColor RED -BackgroundColor White
 
@@ -15,9 +17,9 @@ if(Test-Path $ExportPath){
     Remove-Item -Path $ExportPath -Force
 }
 $DAte = Get-DAte
-"#Generated at $($Date) by Stephane van Gulick" | out-File -FilePath $ExportPath -Encoding utf8 -Append
+"#Generated at $($Date) by $($Author)" | out-File -FilePath $ExportPath -Encoding utf8 -Append
 
-Write-Host "[BUILD][Code] Loading Class, public and private functions" -ForegroundColor RED -BackgroundColor White
+Write-Host "[BUILD][Code] Loading Enums, Class, public and private functions" -ForegroundColor RED -BackgroundColor White
 
 $PublicEnums = Get-ChildItem -Path "$CodeSourcePath\Enums\" -Filter *.ps1 | sort-object Name
 $PublicClasses = Get-ChildItem -Path "$CodeSourcePath\Classes\" -Filter *.ps1 | sort-object Name
@@ -48,7 +50,8 @@ Get-Content $File.FullName | out-File -FilePath $ExportPath -Encoding utf8 -Appe
 Write-Host "[BUILD][START][PSD1] Adding functions to export" -ForegroundColor RED -BackgroundColor White
 
 $FunctionsToExport = $PublicFunctions.BaseName
-$Manifest = Join-Path -Path $ModuleFolderPath -ChildPath "pshtml.psd1"
+Copy-Item -Path $root\$Manifest -Destination $ModuleFolderPath\$Manifest
+$Manifest = Join-Path -Path $ModuleFolderPath -ChildPath $Manifest
 Update-ModuleManifest -Path $Manifest -FunctionsToExport $FunctionsToExport
 
 Write-Host "[BUILD][END][MAIN PSM1] building main PSM1 " -ForegroundColor RED -BackgroundColor White
