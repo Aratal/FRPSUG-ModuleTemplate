@@ -1,0 +1,16 @@
+image:
+- Visual Studio 2015
+- Ubuntu
+
+install:
+- ps: >-
+    .\CI\02_Install.ps1
+build_script:
+- ps: >-
+    .\CI\03_Build.ps1
+
+skip_commits:
+  files:
+    - docs/*
+    - README.MD
+    - mkdocs.yml
