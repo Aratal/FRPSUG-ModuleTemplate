@@ -9,6 +9,11 @@ $Current = (Split-Path -Path $MyInvocation.MyCommand.Path)
 $Root = ((Get-Item $Current).Parent).FullName
 $ModuleFolderPath = Join-Path -Path $Root -ChildPath $ModuleName
 
+if (Test-Path $ModuleFolderPath) {
+    $null = Remove-Item -Path $ModuleFolderPath -Force -Recurse -Confirm:$false
+}
+$null = New-Item -Path $ModuleFolderPath -ItemType Directory -Force -Confirm:$false
+
 $CodeSourcePath = Join-Path -Path $Root -ChildPath "Sources"
 
 $ExportPath = Join-Path -Path $ModuleFolderPath -ChildPath ($ModuleName + ".psm1")
