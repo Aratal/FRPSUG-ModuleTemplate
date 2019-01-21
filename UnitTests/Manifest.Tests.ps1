@@ -1,10 +1,9 @@
 $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
 
-$here = (Split-Path -Parent $MyInvocation.MyCommand.Path).Replace('Pester', '')
+$Current = (Split-Path -Path $MyInvocation.MyCommand.Path)
+$Root = ((Get-Item $Current).Parent).FullName
 
-$modulePath = Join-Path -Path $here -ChildPath \
-$moduleName = (Get-Item -Path "$here\*.psd1").BaseName
-$moduleManifest = Join-Path -Path $modulePath -ChildPath "$ModuleName.psd1"
+$moduleManifest = Join-Path -Path $Root\$ModuleName -ChildPath "$ModuleName.psd1"
 
 Describe 'Module' {
 	Context 'Manifest' {
@@ -21,7 +20,8 @@ Describe 'Module' {
 		}
 
 		It 'has a valid root module' {
-			$script:manifest.RootModule | Should Be ($moduleName + ".psm1")
+			$RootModule = $ModuleName + "\" + $ModuleName + ".psm1"
+			$script:manifest.RootModule | Should Be ($RootModule)
 		}
 
 		It 'has a valid version in the manifest' {

@@ -20,7 +20,7 @@
     <parameter name='Company' type='text' prompt='`r`nEnter the company name' default='None' />
     <parameter name='AllWhatYouWant' type='text' prompt='`r`nEnter what you want in text format' />
 
-  <parameter name='ModuleFolders' type = 'multichoice' prompt='`r`nPlease select folders to include' default='0,1'>
+  <parameter name='ModuleFolders' type = 'multichoice' prompt='`r`nPlease select folders to include' default='0,1,2'>
     <choice label='&amp;Functions' value='functions' help='Adds a function folder to module'/>
     <choice label='&amp;Classes' value='Classes' help='Adds a Classes folder to module'/>
     <choice label='&amp;Enums' value='Enums' help='Adds a Enums folder to module'/>
@@ -40,11 +40,6 @@
   <parameter name='Deploy' type = 'choice' prompt='`r`nAdd Deploy Folder' default='0'>
     <choice label='&amp;Yes' value='Yes' help='Add Deploy Folder.'/>
     <choice label='&amp;No' value='No' help='No Deploy support'/>
-  </parameter>
-
-  <parameter name='Build' type = 'choice' prompt='`r`nAdd Build Folder' default='0'>
-    <choice label='&amp;Yes' value='Yes' help='Add Build Folder.'/>
-    <choice label='&amp;No' value='No' help='No Build support'/>
   </parameter>
 
   <parameter name='Editor' type='choice' default='1' store='text' prompt='`r`nWhich editor do you use'>
@@ -76,17 +71,28 @@
     <message>____________________________________</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}' />
 
+    <message>`r`n-> Creating module manifest</message>
+    <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_AuthorName' companyName='${PLASTER_PARAM_AuthorName}' description='$PLASTER_PARAM_ModuleDescription' encoding='UTF8-NoBOM'/>
+
     <message>`r`n-> Creating your source code folders </message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
-    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes\Private' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
-    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes\Public' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"'/>
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Public\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"'/>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
+    <file source='_gitkeep' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums\.gitkeep' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
     
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Creating UnitTests folder</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\UnitTests' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' />
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying UnitTests files</message>
     <templateFile source='UnitTests\*.Tests.ps1' destination='${PLASTER_PARAM_ModuleName}\UnitTests\' condition='$PLASTER_PARAM_UnitTests -eq "Yes"'/>
+
+    <message condition='$PLASTER_PARAM_Build -eq "Yes"'>`r`n-> Creating Build folder</message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Build' condition='$PLASTER_PARAM_Build -eq "Yes"' />
+    <message condition='$PLASTER_PARAM_Build -eq "Yes"'>`r`n-> Copying build files</message>
+    <templateFile source='Build\*.ps1' destination='${PLASTER_PARAM_ModuleName}\Build\' condition='$PLASTER_PARAM_Build -eq "Yes"'/>
 
     <message condition='$PLASTER_PARAM_License -in @("MIT","Apache")'>`r`n-> Creating Licence file</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Licenses' condition='$PLASTER_PARAM_License -in @("MIT","Apache")' />
@@ -98,6 +104,24 @@
     <message condition='$PLASTER_PARAM_Deploy -eq "Yes"'>`r`n-> Copying Deploy files</message>
     <templateFile source='Deploy\template.PSDeploy.ps1' destination='${PLASTER_PARAM_ModuleName}\Deploy\${PLASTER_PARAM_ModuleName}.PSDeploy.ps1' condition='$PLASTER_PARAM_Deploy -eq "Yes"'/>
 
-  
+    <message condition='$PLASTER_PARAM_Editor -eq "VSCode"'>`r`n-> Creating VSCode folder and files</message>
+    <file source='' destination='.vscode' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
+    <file source='vscode\settings.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\settings.json' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
+    <file source='vscode\launch.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\launch.json' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
+    <file source='vscode\PSScriptAnalyzerSettings.psd1' destination='${PLASTER_PARAM_ModuleName}\.vscode\PSScriptAnalyzerSettings.psd1' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
+    <file source='vscode\tasks_pester.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='($PLASTER_PARAM_Editor -eq "VSCode") -and ($PLASTER_PARAM_Build -eq "No") -and ($PLASTER_PARAM_UnitTests -eq "Yes")' />
+    <file source='vscode\tasks_psake.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='($PLASTER_PARAM_Editor -eq "VSCode") -and ($PLASTER_PARAM_Build -eq "Yes") -and ($PLASTER_PARAM_UnitTests -eq "No")' />
+    <file source='vscode\tasks_psake_pester.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='($PLASTER_PARAM_Editor -eq "VSCode") -and ($PLASTER_PARAM_Build -eq "Yes") -and ($PLASTER_PARAM_UnitTests -eq "Yes")' />
+
+    <message condition='$PLASTER_PARAM_CI -eq "Yes"'>`r`n-> Creating Continous Integration folder</message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\CI' condition='$PLASTER_PARAM_CI -eq "Yes"' />
+    <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying Continous Integration files</message>
+    <templateFile source='CI\*.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\' condition='$PLASTER_PARAM_CI -eq "Yes"'/>
+    <file source='appveyor.yml' destination='${PLASTER_PARAM_ModuleName}\appveyor.yml' condition='$PLASTER_PARAM_CI -eq "Yes"' />
+
+    <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='3.4.0' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
+    <requireModule name='psake' condition='$PLASTER_PARAM_Build -eq "Yes"' message='Without psake, you will not be able to run the provided build script to build and/or publish your module.'/>
+    <requireModule name='PSScriptAnalyzer' condition='$PLASTER_PARAM_Editor -eq "VSCode"' message="Without PSScriptAnalyzer, you will not be able to perform script analysis, or use the provided options to control script analysis."/>
+    <requireModule name='PSdeploy' condition='$PLASTER_PARAM_Deploy -eq "Yes"' message='Without PSDeploy, you will not be able to automatically deploy your module.'/>
   </content>
 </plasterManifest>

@@ -2,7 +2,7 @@ $source = ""
 $destination_dev =""
 $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
 
-$source = split-path $PSScriptRoot
+$source = $PSScriptRoot+"\..\"+$ModuleName
 $destination_dev = [environment]::getfolderpath("mydocuments") + '\WindowsPowerShell\Modules\' + $ModuleName
 
 
