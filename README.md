@@ -10,7 +10,7 @@ Le but étant de pouvoir l'utiliser dans le maximum de cas possible :
 
 le travail sur le templage `FRPSUG-ModuleTemplate` n'est pas terminé mais il reste utilisable en l'état.
 
-# Structure
+# Structure du template
 
 Les repertoires sont structurés de la façon suivante :
 ```
@@ -53,3 +53,14 @@ ROOT
 |
 |-appveyor.yml
 ```
+
+# Utilisation
+
+Pour utiliser le template il faut au prélable récupérer le repo Github sur votre ordianteur.
+le module [PLASTER](https://github.com/PowerShell/Plaster) est indispensable pour l'utilisation du template.
+
+Installation du module
+``` Powershell
+Install-Module Plaster -Scope CurrentUser
+```
+
