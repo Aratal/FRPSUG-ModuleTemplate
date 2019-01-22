@@ -16,7 +16,7 @@ Les repertoires sont structurés de la façon suivante :
 ```
 ROOT
 |-CI
-    |-02_Ibstall.ps1
+    |-02_Install.ps1
     |-03_Build.ps1
     |-04_Tests.ps1
 |
