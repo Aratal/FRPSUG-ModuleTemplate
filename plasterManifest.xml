@@ -72,7 +72,7 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}' />
 
     <message>`r`n-> Creating module manifest</message>
-    <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_AuthorName' companyName='${PLASTER_PARAM_AuthorName}' description='$PLASTER_PARAM_ModuleDescription' encoding='UTF8-NoBOM'/>
+    <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1' moduleVersion='$PLASTER_PARAM_ModuleVersion' rootModule='.\${PLASTER_PARAM_ModuleName}.psm1' author='$PLASTER_PARAM_AuthorName' companyName='${PLASTER_PARAM_AuthorName}' description='$PLASTER_PARAM_ModuleDescription' encoding='UTF8-NoBOM'/>
 
     <message>`r`n-> Creating your source code folders </message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Functions\Private' condition='$PLASTER_PARAM_ModuleFolders -contains "functions"' />
@@ -89,11 +89,6 @@
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying UnitTests files</message>
     <templateFile source='UnitTests\*.Tests.ps1' destination='${PLASTER_PARAM_ModuleName}\UnitTests\' condition='$PLASTER_PARAM_UnitTests -eq "Yes"'/>
 
-    <message condition='$PLASTER_PARAM_Build -eq "Yes"'>`r`n-> Creating Build folder</message>
-    <file source='' destination='${PLASTER_PARAM_ModuleName}\Build' condition='$PLASTER_PARAM_Build -eq "Yes"' />
-    <message condition='$PLASTER_PARAM_Build -eq "Yes"'>`r`n-> Copying build files</message>
-    <templateFile source='Build\*.ps1' destination='${PLASTER_PARAM_ModuleName}\Build\' condition='$PLASTER_PARAM_Build -eq "Yes"'/>
-
     <message condition='$PLASTER_PARAM_License -in @("MIT","Apache")'>`r`n-> Creating Licence file</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Licenses' condition='$PLASTER_PARAM_License -in @("MIT","Apache")' />
     <file source='Licenses\MIT.md' destination='${PLASTER_PARAM_ModuleName}\Licenses\MIT.md' condition='$PLASTER_PARAM_License -eq "MIT"' />
@@ -109,13 +104,11 @@
     <file source='vscode\settings.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\settings.json' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
     <file source='vscode\launch.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\launch.json' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
     <file source='vscode\PSScriptAnalyzerSettings.psd1' destination='${PLASTER_PARAM_ModuleName}\.vscode\PSScriptAnalyzerSettings.psd1' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
-    <file source='vscode\tasks_pester.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='($PLASTER_PARAM_Editor -eq "VSCode") -and ($PLASTER_PARAM_Build -eq "No") -and ($PLASTER_PARAM_UnitTests -eq "Yes")' />
-    <file source='vscode\tasks_psake.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='($PLASTER_PARAM_Editor -eq "VSCode") -and ($PLASTER_PARAM_Build -eq "Yes") -and ($PLASTER_PARAM_UnitTests -eq "No")' />
-    <file source='vscode\tasks_psake_pester.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='($PLASTER_PARAM_Editor -eq "VSCode") -and ($PLASTER_PARAM_Build -eq "Yes") -and ($PLASTER_PARAM_UnitTests -eq "Yes")' />
-
+    <file source='vscode\tasks_pester.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='($PLASTER_PARAM_Editor -eq "VSCode") -and ($PLASTER_PARAM_UnitTests -eq "Yes")' />
+ 
     <message condition='$PLASTER_PARAM_CI -eq "Yes"'>`r`n-> Creating Continous Integration folder</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\CI' condition='$PLASTER_PARAM_CI -eq "Yes"' />
-    <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying Continous Integration files</message>
+    <message condition='$PLASTER_PARAM_CI -eq "Yes"'>`r`n-> Copying Continous Integration files</message>
     <templateFile source='CI\*.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\' condition='$PLASTER_PARAM_CI -eq "Yes"'/>
     <file source='appveyor.yml' destination='${PLASTER_PARAM_ModuleName}\appveyor.yml' condition='$PLASTER_PARAM_CI -eq "Yes"' />
 

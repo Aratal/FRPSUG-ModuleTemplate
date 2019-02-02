@@ -20,7 +20,7 @@ Describe 'Module' {
 		}
 
 		It 'has a valid root module' {
-			$RootModule = $ModuleName + "\" + $ModuleName + ".psm1"
+			$RootModule = ".\" + $ModuleName + ".psm1"
 			$script:manifest.RootModule | Should Be ($RootModule)
 		}
 
