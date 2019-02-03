@@ -57,7 +57,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Clean task...';Invoke-psake -buildFile ./CI/ModuleFinale.Build.ps1 -taskList clean",
+            "command": "Write-Host 'Invoking PSake Clean task...';Invoke-psake -buildFile ./CI/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList clean",
             "problemMatcher": []
         },
         {
@@ -72,7 +72,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Compile task...';Invoke-psake -buildFile ./CI/ModuleFinale.Build.ps1 -taskList compile",
+            "command": "Write-Host 'Invoking PSake Compile task...';Invoke-psake -buildFile ./CI/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList compile",
             "problemMatcher": []
         },
         {
@@ -87,7 +87,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./CI/ModuleFinale.Build.ps1 -taskList test",
+            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./CI/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList test",
             "problemMatcher": []
         },
         {
@@ -102,7 +102,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./ci/ModuleFinale.Build.ps1 -taskList deploy -parameters @{'DeployType' = '${input:DeployType}'}",
+            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./ci/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList deploy -parameters @{'DeployType' = '${input:DeployType}'}",
             "problemMatcher": []
         },
     ],
