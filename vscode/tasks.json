@@ -46,21 +46,6 @@
     // Associate with test task runner
     "tasks": [
         {
-            "label": "All&Test",
-            "type": "shell",
-            "group": "test",
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "showReuseMessage": false,
-                "clear": true
-            },
-            "command": "Write-Host 'Invoking Pester...';Invoke-Pester -PesterOption @{IncludeVSCodeMarker=$true};Invoke-Command { Write-Host 'Completed Test task in task runner.' }",
-            "problemMatcher": "$pester"
-        },
-        {
             "label": "Clean",
             "type": "shell",
             "group": "build",
@@ -72,11 +57,11 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Clean task...'",
+            "command": "Write-Host 'Invoking PSake Clean task...';Invoke-psake -buildFile ./CI/ModuleFinale.Build.ps1 -taskList clean",
             "problemMatcher": []
         },
         {
-            "label": "Analyse",
+            "label": "Compile",
             "type": "shell",
             "group": "build",
             "presentation": {
@@ -87,7 +72,22 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Analyse task...'",
+            "command": "Write-Host 'Invoking PSake Compile task...';Invoke-psake -buildFile ./CI/ModuleFinale.Build.ps1 -taskList compile",
+            "problemMatcher": []
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./CI/ModuleFinale.Build.ps1 -taskList test",
             "problemMatcher": []
         },
         {
@@ -102,42 +102,9 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "./CI/05_Deploy.ps1",
-            "args": [
-                "${input:DeployType}"
-            ],
+            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./ci/ModuleFinale.Build.ps1 -taskList deploy -parameters @{'DeployType' = '${input:DeployType}'}",
             "problemMatcher": []
         },
-        {
-            "label": "CI_Deploy",
-            "type": "shell",
-            "group": "build",
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "showReuseMessage": false,
-                "clear": true
-            },
-            "command": "Write-Host 'Invoke CI Build Script....in ${workspaceFolderBasename} for user ${env:USERNAME}'; ./CI/03_Build.ps1",
-            "problemMatcher": []
-        },
-        {
-            "label": "CI_Prerequis",
-            "type": "shell",
-            "group": "build",
-            "presentation": {
-                "echo": false,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared",
-                "showReuseMessage": false,
-                "clear": true
-            },
-            "command": "Write-Host 'Invoke CI Install Script....in ${workspaceFolderBasename} for user ${env:USERNAME}'; ./CI/02_Install.ps1",
-            "problemMatcher": []
-        }
     ],
     "inputs": [
         {
