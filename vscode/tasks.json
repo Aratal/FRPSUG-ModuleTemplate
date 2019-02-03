@@ -1,0 +1,156 @@
+// Available variables which can be used inside of strings.
+// ${workspaceRoot}: the root folder of the team
+// ${file}: the current opened file
+// ${relativeFile}: the current opened file relative to workspaceRoot
+// ${fileBasename}: the current opened file's basename
+// ${fileDirname}: the current opened file's dirname
+// ${fileExtname}: the current opened file's extension
+// ${cwd}: the current working directory of the spawned process
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    // Start PowerShell
+    "windows": {
+        "command": "${env:windir}/System32/WindowsPowerShell/v1.0/powershell.exe",
+        "args": [
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-command"
+        ]
+    },
+    "linux": {
+        "command": "/usr/bin/pwsh",
+        "args": [
+            "-NoProfile"
+        ]
+    },
+    "osx": {
+        "command": "/usr/local/bin/pwsh",
+        "args": [
+            "-NoProfile"
+        ]
+    },
+    // The command is a shell script
+    "type": "shell",
+    // Show the output window always
+    "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+    },
+    // Associate with test task runner
+    "tasks": [
+        {
+            "label": "All&Test",
+            "type": "shell",
+            "group": "test",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "command": "Write-Host 'Invoking Pester...';Invoke-Pester -PesterOption @{IncludeVSCodeMarker=$true};Invoke-Command { Write-Host 'Completed Test task in task runner.' }",
+            "problemMatcher": "$pester"
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "command": "Write-Host 'Invoking PSake Clean task...'",
+            "problemMatcher": []
+        },
+        {
+            "label": "Analyse",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "command": "Write-Host 'Invoking PSake Analyse task...'",
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "command": "./CI/05_Deploy.ps1",
+            "args": [
+                "${input:DeployType}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "CI_Deploy",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "command": "Write-Host 'Invoke CI Build Script....in ${workspaceFolderBasename} for user ${env:USERNAME}'; ./CI/03_Build.ps1",
+            "problemMatcher": []
+        },
+        {
+            "label": "CI_Prerequis",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "command": "Write-Host 'Invoke CI Install Script....in ${workspaceFolderBasename} for user ${env:USERNAME}'; ./CI/02_Install.ps1",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "DeployType",
+            "description": "What type of deploy do you want ?",
+            "default": "DEV",
+            "type": "pickString",
+            "options": [
+                "DEV",
+                "Prod",
+                "Support",
+                "PSGallery"
+            ]
+        }
+    ]
+}
