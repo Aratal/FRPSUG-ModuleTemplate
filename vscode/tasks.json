@@ -44,7 +44,7 @@
         "echo": false,
         "reveal": "always",
         "focus": true,
-        "panel": "shared",
+        "panel": "dedicated",
         "showReuseMessage": false,
         "clear": true
     },
@@ -58,7 +58,7 @@
                 "echo": false,
                 "reveal": "always",
                 "focus": true,
-                "panel": "shared",
+                "panel": "dedicated",
                 "showReuseMessage": true,
                 "clear": true
             },
@@ -73,7 +73,7 @@
                 "echo": false, //afficher un rappel de la commande executée
                 "reveal": "always", //affichage de la fenêtre d'execution
                 "focus": true, //focus ou non sur la fenêtre d'execution
-                "panel": "shared", //comportement de la fenêtre a chaque execution Dedicated, New, Shared
+                "panel": "dedicated", //comportement de la fenêtre a chaque execution Dedicated, New, Shared
                 "showReuseMessage": false, //affichage d'un message à la fin de l'execution pour signaler que la console va être réutiliser
                 "clear": true //nettoyage de la console avant de lancer la tâche
             },
@@ -88,7 +88,7 @@
                 "echo": false,
                 "reveal": "always",
                 "focus": true,
-                "panel": "shared",
+                "panel": "dedicated",
                 "showReuseMessage": false,
                 "clear": true
             },
@@ -103,7 +103,7 @@
                 "echo": false,
                 "reveal": "always",
                 "focus": true,
-                "panel": "shared",
+                "panel": "dedicated",
                 "showReuseMessage": false,
                 "clear": true
             },
@@ -118,7 +118,7 @@
                 "echo": false,
                 "reveal": "always",
                 "focus": true,
-                "panel": "shared",
+                "panel": "dedicated",
                 "showReuseMessage": false,
                 "clear": true
             },
