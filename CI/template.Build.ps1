@@ -9,7 +9,7 @@ task Deploy -depends test {
     if ($null -eq $DeployType) {
         $DeployType = "DEV"
     }
-    $ModuleName = "PSitSupport"
+    $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
     Import-Module PSDeploy
 
     $source  =   $PSScriptRoot +'\..\Deploy\'+ $ModuleName +'.PSDeploy.ps1'
@@ -34,7 +34,7 @@ task Test -depends compile {
 }
 
 task Compile -depends install,Clean {
-    $ModuleName = "PSitSupport"
+    $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
     $Author = ""
     $Manifest = ($ModuleName + ".psd1")
 
@@ -93,7 +93,7 @@ task Compile -depends install,Clean {
 task Clean {
     Write-output "[CLEAN] START"
     Write-Output "[CLEAN] Suppress build module if exist"
-    $ModuleName = "PSitSupport"
+    $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
     $Current = $PSScriptRoot
     $Root = ((Get-Item $Current).Parent).FullName
     $ModuleFolderPath = Join-Path -Path $Root -ChildPath $ModuleName
@@ -106,8 +106,8 @@ task Clean {
 }
 
 task Install {
-    write-host "[INSTALL] Start" -ForegroundColor Red -BackgroundColor White
-    write-host "[INSTALL] Install core modules" -ForegroundColor Red -BackgroundColor White
+    Write-Output "[INSTALL] Start"
+    Write-Output "[INSTALL] Install core modules"
 
     $listModule = "PSdeploy","Pester","PSake","PSScriptAnalyzer"
     foreach ($module in $ListModule) {
@@ -116,5 +116,5 @@ task Install {
         }
 
     }
-    write-host "[INSTALL] End" -ForegroundColor Red -BackgroundColor White
+    Write-Output "[INSTALL] End"
 }
