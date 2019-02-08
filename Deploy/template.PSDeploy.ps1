@@ -6,7 +6,7 @@ $source = $PSScriptRoot+"\..\"+$ModuleName
 $destination_dev = [environment]::getfolderpath("mydocuments") + '\WindowsPowerShell\Modules\' + $ModuleName
 
 
-Deploy ExampleDeployment {
+Deploy Dev {
 
     By FileSystem Scripts {
 
