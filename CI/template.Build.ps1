@@ -9,16 +9,15 @@ task Deploy -depends test {
     if ($null -eq $DeployType) {
         $DeployType = "DEV"
     }
-    $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
-
+    $ModuleName = "PSitSupport"
     Import-Module PSDeploy
 
     $source  =   $PSScriptRoot +'\..\Deploy\'+ $ModuleName +'.PSDeploy.ps1'
 
-    Invoke-PSDeploy -Path $source -tag $DeployType -Force -Verbose
+    Invoke-PSDeploy -Path $source -tag $DeployType -Force
 }
 
-task Test -depends install,compile{
+task Test -depends compile {
     Write-Output "[TEST][START]"
     import-module pester
     start-sleep -seconds 2
@@ -34,9 +33,9 @@ task Test -depends install,compile{
     Write-Output "[TEST][END]"
 }
 
-task Compile -depends Clean {
-    $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
-    $Author = "<%= $PLASTER_PARAM_Author %>"
+task Compile -depends install,Clean {
+    $ModuleName = "PSitSupport"
+    $Author = ""
     $Manifest = ($ModuleName + ".psd1")
 
     Write-Output "[BUILD][START] Launching Build Process : $($ModuleName)"
@@ -94,7 +93,7 @@ task Compile -depends Clean {
 task Clean {
     Write-output "[CLEAN] START"
     Write-Output "[CLEAN] Suppress build module if exist"
-    $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
+    $ModuleName = "PSitSupport"
     $Current = $PSScriptRoot
     $Root = ((Get-Item $Current).Parent).FullName
     $ModuleFolderPath = Join-Path -Path $Root -ChildPath $ModuleName
