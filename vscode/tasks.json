@@ -1,11 +1,16 @@
 // Available variables which can be used inside of strings.
-// ${workspaceRoot}: the root folder of the team
-// ${file}: the current opened file
-// ${relativeFile}: the current opened file relative to workspaceRoot
-// ${fileBasename}: the current opened file's basename
-// ${fileDirname}: the current opened file's dirname
-// ${fileExtname}: the current opened file's extension
-// ${cwd}: the current working directory of the spawned process
+// ${workspaceFolder} - the path of the folder opened in VS Code
+//${workspaceFolderBasename} - the name of the folder opened in VS Code without any slashes (/)
+//${file} - the current opened file
+//${relativeFile} - the current opened file relative to workspaceFolder
+//${fileBasename} - the current opened file's basename
+//${fileBasenameNoExtension} - the current opened file's basename with no file extension
+//${fileDirname} - the current opened file's dirname
+//${fileExtname} - the current opened file's extension
+//${cwd} - the task runner's current working directory on startup
+//${lineNumber} - the current selected line number in the active file
+//${selectedText} - the current selected text in the active file
+//${execPath} - the path to the running VS Code executable
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
@@ -46,19 +51,34 @@
     // Associate with test task runner
     "tasks": [
         {
-            "label": "Clean",
+            "label": "AllPesterTest",
             "type": "shell",
-            "group": "build",
+            "group": "test",
             "presentation": {
                 "echo": false,
                 "reveal": "always",
                 "focus": true,
                 "panel": "shared",
-                "showReuseMessage": false,
+                "showReuseMessage": true,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Clean task...';Invoke-psake -buildFile ./CI/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList clean",
-            "problemMatcher": []
+            "command": "Write-Host 'Invoking Pester...'; $ProgressPreference = 'SilentlyContinue'; Invoke-Pester -PesterOption @{IncludeVSCodeMarker=$true};Invoke-Command { Write-Host 'Completed Test task in task runner.' }",
+            "problemMatcher": "$pester"
+        },
+        {
+            "label": "Clean", //nom de la tâche qui va appraitre dans la liste des tâches
+            "type": "shell", // Shell (pour lancer une commande) ou process (pour lancer un fichier .bat .ps1 ...)
+            "group": "build", //type de la tâche Build ou Test
+            "presentation": { //paramètres utilisés pour executer la tâche
+                "echo": false, //afficher un rappel de la commande executée
+                "reveal": "always", //affichage de la fenêtre d'execution
+                "focus": true, //focus ou non sur la fenêtre d'execution
+                "panel": "shared", //comportement de la fenêtre a chaque execution Dedicated, New, Shared
+                "showReuseMessage": false, //affichage d'un message à la fin de l'execution pour signaler que la console va être réutiliser
+                "clear": true //nettoyage de la console avant de lancer la tâche
+            },
+            "command": "Write-Host 'Invoking PSake Clean task on ${workspaceFolderBasename} module ...';Invoke-psake -buildFile ${workspaceFolder}/CI/${workspaceFolderBasename}.Build.ps1 -taskList clean",
+            "problemMatcher": [] //capture personnalisée des messages d'erreur pour traitement (Regex)
         },
         {
             "label": "Compile",
@@ -72,7 +92,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Compile task...';Invoke-psake -buildFile ./CI/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList compile",
+            "command": "Write-Host 'Invoking PSake Compile task on ${workspaceFolderBasename} module...';Invoke-psake -buildFile ${workspaceFolder}/CI/${workspaceFolderBasename}.Build.ps1 -taskList compile",
             "problemMatcher": []
         },
         {
@@ -87,7 +107,7 @@
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./CI/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList test",
+            "command": "Write-Host 'Invoking PSake Test task on ${workspaceFolderBasename} module...';Invoke-psake -buildFile ${workspaceFolder}/CI/${workspaceFolderBasename}.Build.ps1 -taskList test",
             "problemMatcher": []
         },
         {
@@ -95,14 +115,14 @@
             "type": "shell",
             "group": "build",
             "presentation": {
-                "echo": true,
+                "echo": false,
                 "reveal": "always",
                 "focus": true,
                 "panel": "shared",
                 "showReuseMessage": false,
                 "clear": true
             },
-            "command": "Write-Host 'Invoking PSake Test task...';Invoke-psake -buildFile ./ci/<%= $PLASTER_PARAM_ModuleName %>.Build.ps1 -taskList deploy -parameters @{'DeployType' = '${input:DeployType}'}",
+            "command": "Write-Host 'Invoking PSake Deploy task on ${workspaceFolderBasename}...';Invoke-psake -buildFile ${workspaceFolder}/ci/${workspaceFolderBasename}.Build.ps1 -taskList deploy -parameters @{'DeployType' = '${input:DeployType}'}",
             "problemMatcher": []
         },
     ],
