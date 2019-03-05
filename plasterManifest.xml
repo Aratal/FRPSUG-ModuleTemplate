@@ -63,6 +63,7 @@
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Classes' condition='$PLASTER_PARAM_ModuleFolders -contains "Classes"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Sources\Enums' condition='$PLASTER_PARAM_ModuleFolders -contains "Enums"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\Tests' />
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Docs' />
     
 
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Creating UnitTests folder</message>
@@ -82,11 +83,17 @@
 
     <message condition='$PLASTER_PARAM_CICD -eq "Yes"'>`r`n-> Creating CI/CD Ressources</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\CI' condition='$PLASTER_PARAM_CICD -eq "Yes"' />
+    <templateFile source='CI\template.Install.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Install.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
+    <templateFile source='CI\template.Clean.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Clean.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
+    <templateFile source='CI\template.Compile.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Compile.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
+    <templateFile source='CI\template.Tests.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Tests.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
+      <templateFile source='CI\template.Diagram.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Diagram.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
 
-    <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='4.6.0' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
+    <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='4.7.1' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
     <requireModule name='psake' condition='$PLASTER_PARAM_Psake -eq "Yes"' minimumVersion='4.7.4' message='Without psake, you will not be able to run the provided build script to build and/or publish your module.'/>
     <requireModule name='PSScriptAnalyzer' condition='$PLASTER_PARAM_Editor -eq "VSCode"' minimumVersion='1.17.1' message="Without PSScriptAnalyzer, you will not be able to perform script analysis, or use the provided options to control script analysis."/>
-    <requireModule name='PSdeploy' condition='$PLASTER_PARAM_Deploy -eq "Yes"' minimumVersion='1.0.1' message='Without PSDeploy, you will not be able to automatically deploy your module.'/>
+    <requireModule name='PSdeploy' condition='$PLASTER_PARAM_CICD -eq "Yes"' minimumVersion='1.0.1' message='Without PSDeploy, you will not be able to automatically deploy your module.'/>
     <requireModule name='PSClassUtils' condition='$PLASTER_PARAM_CICD -eq "Yes"' minimumVersion='2.2.6' message='Without PSClassUtils, you will not be able to run the provided build script to build and/or publish your module.'/>
+    <requireModule name='PlatyPS' condition='$PLASTER_PARAM_CICD -eq "Yes"' minimumVersion='0.12.0' message='Without PlatyPS, you will not be able to generate the documentation automatically.'/>
   </content>
 </plasterManifest>
