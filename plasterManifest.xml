@@ -78,5 +78,6 @@
     <requireModule name='psake' condition='$PLASTER_PARAM_Build -eq "Yes"' minimumVersion='4.7.4' message='Without psake, you will not be able to run the provided build script to build and/or publish your module.'/>
     <requireModule name='PSScriptAnalyzer' condition='$PLASTER_PARAM_Editor -eq "VSCode"' minimumVersion='1.17.1' message="Without PSScriptAnalyzer, you will not be able to perform script analysis, or use the provided options to control script analysis."/>
     <requireModule name='PSdeploy' condition='$PLASTER_PARAM_Deploy -eq "Yes"' minimumVersion='1.0.1' message='Without PSDeploy, you will not be able to automatically deploy your module.'/>
+    <requireModule name='PSClassUtils' condition='$PLASTER_PARAM_Build -eq "Yes"' minimumVersion='2.2.6' message='Without PSClassUtils, you will not be able to run the provided build script to build and/or publish your module.'/>
   </content>
 </plasterManifest>
