@@ -1,6 +1,6 @@
 $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
 
-$Current = (Split-Path -Path $MyInvocation.MyCommand.Path)
+$Current = $PSScriptRoot
 $Root = ((Get-Item $Current).Parent).FullName
 
 $moduleManifest = Join-Path -Path $Root\$ModuleName -ChildPath "$ModuleName.psd1"
