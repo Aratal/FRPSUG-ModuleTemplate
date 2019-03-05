@@ -40,6 +40,12 @@
     <choice label='&amp;Yes' value='Yes' help='Add Github Folder.'/>
     <choice label='&amp;No' value='No' help='No Github support'/>
   </parameter>
+
+  <parameter name='CICD' type = 'choice' prompt='`r`nAdd support for CI/CD' default='0'>
+    <choice label='&amp;Yes' value='Yes' help='Add CI/CD Support.'/>
+    <choice label='&amp;No' value='No' help='No CI/CD support'/>
+  </parameter>
+
   </parameters>
   
   <content>
@@ -74,10 +80,13 @@
     <message condition='$PLASTER_PARAM_Github -eq "Yes"'>`r`n-> Creating Github Ressources</message>
     <templateFile source='github\template.gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore' condition='$PLASTER_PARAM_Github -eq "Yes"'/>
 
+    <message condition='$PLASTER_PARAM_CICD -eq "Yes"'>`r`n-> Creating CI/CD Ressources</message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\CI' condition='$PLASTER_PARAM_CICD -eq "Yes"' />
+
     <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='4.6.0' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
-    <requireModule name='psake' condition='$PLASTER_PARAM_Build -eq "Yes"' minimumVersion='4.7.4' message='Without psake, you will not be able to run the provided build script to build and/or publish your module.'/>
+    <requireModule name='psake' condition='$PLASTER_PARAM_Psake -eq "Yes"' minimumVersion='4.7.4' message='Without psake, you will not be able to run the provided build script to build and/or publish your module.'/>
     <requireModule name='PSScriptAnalyzer' condition='$PLASTER_PARAM_Editor -eq "VSCode"' minimumVersion='1.17.1' message="Without PSScriptAnalyzer, you will not be able to perform script analysis, or use the provided options to control script analysis."/>
     <requireModule name='PSdeploy' condition='$PLASTER_PARAM_Deploy -eq "Yes"' minimumVersion='1.0.1' message='Without PSDeploy, you will not be able to automatically deploy your module.'/>
-    <requireModule name='PSClassUtils' condition='$PLASTER_PARAM_Build -eq "Yes"' minimumVersion='2.2.6' message='Without PSClassUtils, you will not be able to run the provided build script to build and/or publish your module.'/>
+    <requireModule name='PSClassUtils' condition='$PLASTER_PARAM_CICD -eq "Yes"' minimumVersion='2.2.6' message='Without PSClassUtils, you will not be able to run the provided build script to build and/or publish your module.'/>
   </content>
 </plasterManifest>
