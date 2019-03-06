@@ -87,8 +87,9 @@
     <templateFile source='CI\template.Clean.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Clean.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
     <templateFile source='CI\template.Compile.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Compile.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
     <templateFile source='CI\template.Tests.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Tests.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
-      <templateFile source='CI\template.Diagram.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Diagram.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
-
+    <templateFile source='CI\template.Diagram.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Diagram.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
+    <templateFile source='vscode\tasks_CICD.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
+ 
     <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='4.7.1' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
     <requireModule name='psake' condition='$PLASTER_PARAM_Psake -eq "Yes"' minimumVersion='4.7.4' message='Without psake, you will not be able to run the provided build script to build and/or publish your module.'/>
     <requireModule name='PSScriptAnalyzer' condition='$PLASTER_PARAM_Editor -eq "VSCode"' minimumVersion='1.17.1' message="Without PSScriptAnalyzer, you will not be able to perform script analysis, or use the provided options to control script analysis."/>
