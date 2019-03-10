@@ -71,8 +71,9 @@
     <message condition='$PLASTER_PARAM_UnitTests -eq "Yes"'>`r`n-> Copying UnitTests files</message>
     <templateFile source='UnitTests\*.Tests.ps1' destination='${PLASTER_PARAM_ModuleName}\UnitTests\' condition='$PLASTER_PARAM_UnitTests -eq "Yes"'/>
 
-    <message condition='$PLASTER_PARAM_Editor -eq "VSCode"'>`r`n-> Creating VSCode folder and files</message>
+    <message condition='$PLASTER_PARAM_Editor -eq "VSCode"'>`r`n-> Creating VSCode folder</message>
     <file source='' destination='.vscode' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
+    <message condition='$PLASTER_PARAM_Editor -eq "VSCode"'>`r`n-> Creating VSCode files</message>
     <file source='vscode\settings.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\settings.json' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
     <file source='vscode\launch.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\launch.json' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
     <file source='vscode\PSScriptAnalyzerSettings.psd1' destination='${PLASTER_PARAM_ModuleName}\.vscode\PSScriptAnalyzerSettings.psd1' condition='$PLASTER_PARAM_Editor -eq "VSCode"' />
@@ -81,9 +82,10 @@
     <message condition='$PLASTER_PARAM_Github -eq "Yes"'>`r`n-> Creating Github Ressources</message>
     <templateFile source='github\template.gitignore' destination='${PLASTER_PARAM_ModuleName}\.gitignore' condition='$PLASTER_PARAM_Github -eq "Yes"'/>
 
-    <message condition='$PLASTER_PARAM_CICD -eq "Yes"'>`r`n-> Creating CI/CD Ressources</message>
+    <message condition='$PLASTER_PARAM_CICD -eq "Yes"'>`r`n-> Creating CI/CD folders</message>
     <file source='' destination='${PLASTER_PARAM_ModuleName}\CI' condition='$PLASTER_PARAM_CICD -eq "Yes"' />
     <file source='' destination='${PLASTER_PARAM_ModuleName}\CI\Deploy' condition='$PLASTER_PARAM_CICD -eq "Yes"' />
+    <message condition='$PLASTER_PARAM_CICD -eq "Yes"'>`r`n-> Creating CI/CD files</message>
     <templateFile source='CI\template.Install.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Install.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
     <templateFile source='CI\template.Clean.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Clean.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
     <templateFile source='CI\template.Compile.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Compile.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
