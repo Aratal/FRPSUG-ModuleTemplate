@@ -22,9 +22,9 @@ if (!(Get-Module -ListAvailable -Name PSScriptAnalyzer | Where-Object { $_.Versi
     Install-Module -Name PSScriptAnalyzer -MinimumVersion 1.17.1 -Scope CurrentUser -Force -Confirm:$false
 }
 
-if (!(Get-Module -ListAvailable -Name PSClassUtils | Where-Object { $_.Version -eq '2.2.6' })) {
+if (!(Get-Module -ListAvailable -Name PSClassUtils | Where-Object { $_.Version -eq '2.6.1' })) {
     Write-Output "[INSTALL] PSClassUtils"
-    Install-Module -Name PSClassUtils -MinimumVersion 2.2.6 -Scope CurrentUser -Force -Confirm:$false
+    Install-Module -Name PSClassUtils -MinimumVersion 2.6.1 -Scope CurrentUser -Force -Confirm:$false
     Import-module PSClassUtils
     Install-PackageProvider -Name Chocolatey -force;
     Register-PackageSource -Name Chocolatey -ProviderName Chocolatey -Location http://chocolatey.org/api/v2/ -Force -Trusted;
