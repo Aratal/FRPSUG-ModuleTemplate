@@ -46,6 +46,11 @@
     <choice label='&amp;No' value='No' help='No CI/CD support'/>
   </parameter>
 
+  <parameter name='Psake' type = 'choice' prompt='`r`nAdd support for Psake' default='0'>
+    <choice label='&amp;Yes' value='Yes' help='Add Psake Support.'/>
+    <choice label='&amp;No' value='No' help='No Psake support'/>
+  </parameter>
+
   </parameters>
   
   <content>
@@ -95,6 +100,19 @@
     <templateFile source='vscode\tasks_CICD.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
     <templateFile source='CI\Deploy\template.PSDeploy.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Deploy\${PLASTER_PARAM_ModuleName}.PSDeploy.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
     <templateFile source='CI\template.Deploy.ps1' destination='${PLASTER_PARAM_ModuleName}\CI\Deploy.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes"'/>
+
+    <message condition='$PLASTER_PARAM_CICD -eq "No" -and $PLASTER_PARAM_Psake -eq "Yes" '>`r`n-> Psake tasks can't be create without CICD file</message>
+    <message condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '>`r`n-> Creating Psake folders</message>
+    <file source='' destination='${PLASTER_PARAM_ModuleName}\Tasks' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes"' />
+    <message condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '>`r`n-> Creating Psake tasks files ...</message>
+    <templateFile source='vscode\tasks_psake.json' destination='${PLASTER_PARAM_ModuleName}\.vscode\tasks.json' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\${PLASTER_PARAM_ModuleName}.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Install.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Install.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Clean.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Clean.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Compile.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Compile.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Deploy.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Deploy.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Docs.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Docs.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Tests.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Tests.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
 
     <message>`r`n-> Testing require modules </message>
     <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='4.7.1' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
