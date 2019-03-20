@@ -1,14 +1,16 @@
 $source = ""
-$destination_dev =""
+$destination_dev = ""
+
 $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
+$Current = $PSScriptRoot
+$Root = ((Get-Item $Current).Parent).FullName + "\..\"
 
-$source = $PSScriptRoot+"\..\"+$ModuleName
+$source = $Root + $ModuleName
 $destination_dev = [environment]::getfolderpath("mydocuments") + '\WindowsPowerShell\Modules\' + $ModuleName
-
 
 Deploy Dev {
 
-    By FileSystem Scripts {
+    By FileSystem {
 
         FromSource $source
         To $destination_dev
@@ -18,4 +20,3 @@ Deploy Dev {
         }
     }
 }
-
