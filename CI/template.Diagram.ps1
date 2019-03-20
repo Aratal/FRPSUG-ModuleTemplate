@@ -17,11 +17,11 @@ if (!($null -eq $PublicClasses)) {
 
     Foreach ($file in $PublicClasses) {
         Write-Output "[DIAGRAM] Generate Diagram for $File"
-        Write-CUClassDiagram -Path $file.FullName -ExportFolder "$Root\Docs\Diagrams" -OutputFormat png -IgnoreCase -ShowComposition
+        Write-CUClassDiagram -Path $file.FullName -ExportFolder "$Root\Docs\Diagrams" -OutputFormat png -IgnoreCase -ShowComposition -OutPutType Unique
     }
 
     Write-Output "[DIAGRAM] Generate Generic Diagram"
-    Write-CUClassDiagram -Path "$Root\Sources" -Recurse -ExportFolder "$Root\Docs\Diagrams" -OutputFormat png -ShowComposition
+    Write-CUClassDiagram -Path "$Root\Sources" -Recurse -ExportFolder "$Root\Docs\Diagrams" -OutputFormat png -ShowComposition -OutPutType Combined
 } else {
     Write-Output "[DIAGRAM] No classes found in the directory $CodeSourcePath\Classes"
 }

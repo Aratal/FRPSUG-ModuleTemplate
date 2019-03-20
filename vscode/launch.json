@@ -18,7 +18,7 @@
             "name": "PowerShell Launch Current File",
             "script": "${file}",
             "args": [],
-            "cwd": "C:\\"
+            "cwd": "${file}"
         },
         {
             "type": "PowerShell",
