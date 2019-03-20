@@ -113,6 +113,7 @@
     <templateFile source='Tasks\template.Deploy.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Deploy.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
     <templateFile source='Tasks\template.Docs.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Docs.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
     <templateFile source='Tasks\template.Tests.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Tests.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
+    <templateFile source='Tasks\template.Diagram.Tasks.ps1' destination='${PLASTER_PARAM_ModuleName}\Tasks\Diagram.Tasks.ps1' condition='$PLASTER_PARAM_CICD -eq "Yes" -and $PLASTER_PARAM_Psake -eq "Yes" '/>
 
     <message>`r`n-> Testing require modules </message>
     <requireModule name='Pester' condition='$PLASTER_PARAM_UnitTests -eq "Yes"' minimumVersion='4.7.1' message='Without Pester, you will not be able to run the provided Pester test to validate your module manifest file.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel.'/>
