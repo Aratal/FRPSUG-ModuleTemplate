@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop";
 $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
 $Current = $PSScriptRoot
 $Root = ((Get-Item $Current).Parent).FullName
-$MarkdownPath = Join-Path -Path $Root -ChildPath $ModuleName\Docs\EN-US
+$MarkdownPath = Join-Path -Path $Root -ChildPath Docs\EN-US
 #$HelpFilePath = Join-Path -Path $Root -ChildPath $ModuleName\Docs
 
 try {
