@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = "Stop";
 
-[parameter(Mandatory = $True)][String]$Deploytype = "DEV"
+[parameter(Mandatory = $True)][String]$Deploytype
 
 $ModuleName = "<%= $PLASTER_PARAM_ModuleName %>"
 $Current = $PSScriptRoot
