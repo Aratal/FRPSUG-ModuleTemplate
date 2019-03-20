@@ -1,0 +1,1 @@
+# FRPSUG-ModuleTemplate
