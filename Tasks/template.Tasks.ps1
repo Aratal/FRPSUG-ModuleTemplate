@@ -14,7 +14,7 @@ task Deploy -depends Compile {
     Invoke-psake -buildFile "Deploy.Tasks.ps1"
 }
 
-task Tests -depends Deploy {
+task Tests -depends Compile {
     Invoke-psake -buildFile "Tests.Tasks.ps1"
 }
 
