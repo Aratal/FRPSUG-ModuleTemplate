@@ -1,21 +1,5 @@
-// Available variables which can be used inside of strings.
-// ${workspaceFolder} - the path of the folder opened in VS Code
-//${workspaceFolderBasename} - the name of the folder opened in VS Code without any slashes (/)
-//${file} - the current opened file
-//${relativeFile} - the current opened file relative to workspaceFolder
-//${fileBasename} - the current opened file's basename
-//${fileBasenameNoExtension} - the current opened file's basename with no file extension
-//${fileDirname} - the current opened file's dirname
-//${fileExtname} - the current opened file's extension
-//${cwd} - the task runner's current working directory on startup
-//${lineNumber} - the current selected line number in the active file
-//${selectedText} - the current selected text in the active file
-//${execPath} - the path to the running VS Code executable
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
-    // Start PowerShell
     "windows": {
         "command": "${env:windir}/System32/WindowsPowerShell/v1.0/powershell.exe",
         "args": [
@@ -37,9 +21,7 @@
             "-NoProfile"
         ]
     },
-    // The command is a shell script
     "type": "shell",
-    // Show the output window always
     "presentation": {
         "echo": false,
         "reveal": "always",
@@ -48,7 +30,6 @@
         "showReuseMessage": false,
         "clear": true
     },
-    // Associate with test task runner
     "tasks": [
         {
             "label": "AllPesterTest",
@@ -154,7 +135,7 @@
             },
             "command": "Write-Host 'Invoking PSake Deploy task on ${workspaceFolderBasename}...';Invoke-psake -buildFile ${workspaceFolder}/Tasks/${workspaceFolderBasename}.Tasks.ps1 -taskList deploy -parameters @{'DeployType' = '${input:DeployType}'}",
             "problemMatcher": []
-        },
+        }
     ],
     "inputs": [
         {
