@@ -48,7 +48,7 @@ Write-Output "[BUILD][START][PSD1] Adding functions to export"
 $FunctionsToExport = $PublicFunctions.BaseName
 Copy-Item -Path $root\$Manifest -Destination $ModuleFolderPath\$Manifest
 $Manifest = Join-Path -Path $ModuleFolderPath -ChildPath $Manifest
-if ($FunctionsToExport -ne $null) {
+if ($null -ne $FunctionsToExport) {
     Update-ModuleManifest -Path $Manifest -FunctionsToExport $FunctionsToExport
 }
 
