@@ -21,16 +21,28 @@ New-Item -Path $ExportPath -ItemType File -Force
 
 Write-Output "[BUILD][Code] Loading Enums, Class, public and private functions"
 
-$PublicEnums = Get-ChildItem -Path "$CodeSourcePath\Enums\" -Filter *.ps1 | sort-object Name
-$PublicClasses = Get-ChildItem -Path "$CodeSourcePath\Classes\" -Filter *.ps1 | sort-object Name
-$PrivateFunctions = Get-ChildItem -Path "$CodeSourcePath\Functions\Private" -Filter *.ps1
-$PublicFunctions = Get-ChildItem -Path "$CodeSourcePath\Functions\Public" -Filter *.ps1
+ $MainPSM1Contents = @()
 
-$MainPSM1Contents = @()
-$MainPSM1Contents += $PublicEnums
-$MainPSM1Contents += $PublicClasses
-$MainPSM1Contents += $PrivateFunctions
-$MainPSM1Contents += $PublicFunctions
+ if (Test-Path -Path "$CodeSourcePath\Enums\") {
+     $PublicEnums = Get-ChildItem -Path "$CodeSourcePath\Enums\" -Filter *.ps1 | sort-object Name
+     $MainPSM1Contents += $PublicEnums
+ }
+ If (Test-Path -Path "$CodeSourcePath\Classes\") {
+     $PublicClasses = Get-ChildItem -Path "$CodeSourcePath\Classes\" -Filter *.ps1 | sort-object Name
+     $MainPSM1Contents += $PublicClasses
+ }
+ If (Test-Path -Path "$CodeSourcePath\Functions\Private") {
+     $PrivateFunctions = Get-ChildItem -Path "$CodeSourcePath\Functions\Private" -Filter *.ps1 | sort-object Name
+     $MainPSM1Contents += $PrivateFunctions
+ }
+ If (Test-Path -Path "$CodeSourcePath\Functions\Public") {
+     $PublicFunctions = Get-ChildItem -Path "$CodeSourcePath\Functions\Public" -Filter *.ps1 | sort-object Name
+     $MainPSM1Contents += $PublicFunctions
+ }
+ 
+ if ($MainPSM1Contents.Count -eq 0 ) {
+     Write-error "No source file found to compile Module"
+ }
 
 #Creating PSM1
 Write-Output "[BUILD][START][MAIN PSM1] Building main PSM1"
